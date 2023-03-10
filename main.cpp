@@ -12,7 +12,7 @@ public:
 		sAppName = "Jelly";
 	}
 
-	Pointf pointPos = { 200.0, 200.0 };
+	olc::vf2d pointPos = { 200.0, 200.0 };
 
 	MassPoint* point = nullptr;
 
@@ -29,10 +29,11 @@ public:
 
 		//MassPoint& point = point;
 
-		double gravity = -9.8 * (double)point->mass;
-		point->force = gravity; //( * spring force)
-		point->velocity = (point->force / point->mass) * deltaTime;
+		//double gravity = -9.8 * (double)point->mass;
+		//point->force = gravity; //( * spring force)
+		//point->velocity = (point->force / point->mass) * deltaTime;
 
+		point->draw();
 		return true;
 	}
 };
