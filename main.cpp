@@ -11,29 +11,29 @@ public:
 	JELLY() {
 		sAppName = "Jelly";
 	}
+	~JELLY() {
+		delete point;
+	}
 
-	olc::vf2d pointPos = { 200.0, 200.0 };
+	olc::vf2d pointPos = { 160.0f, 10.0f };
+	olc::vf2d pointVelocity = { 0.0f, 0.0f };
+	olc::vf2d pointForce = { 0.0f, 9.8f };
+	float pointMass = 1.0f;
 
-	MassPoint* point = nullptr;
+	Particle* point = nullptr;
 
 	bool OnUserCreate() override
 	{
-		point = new MassPoint(this, pointPos, 1.0, 1.0, 3.0);
+		point = new Particle(this, pointPos, pointVelocity, pointForce, pointMass);
 
 		return true;
 	}
 
 	bool OnUserUpdate(float deltaTime) override
 	{
-		Clear(olc::Pixel(80, 100, 180));
+		Clear(olc::Pixel(0, 0, 0));
 
-		//MassPoint& point = point;
-
-		//double gravity = -9.8 * (double)point->mass;
-		//point->force = gravity; //( * spring force)
-		//point->velocity = (point->force / point->mass) * deltaTime;
-
-		point->draw();
+		point->update(deltaTime);
 		return true;
 	}
 };
