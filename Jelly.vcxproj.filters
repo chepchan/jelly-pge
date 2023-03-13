@@ -18,12 +18,18 @@
     <ClInclude Include="masspoint.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="spring.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="masspoint.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="spring.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
