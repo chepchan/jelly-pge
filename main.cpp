@@ -43,21 +43,21 @@ public:
 		springs[1] = new Spring(this, springPos2, 0.98, 8.0, 0.1, 1);
 		springs[3] = new Spring(this, springPos3, 0.98, 8.0, 0.1, 2);
 
-		void sprUpdate(*Spring) {
-			for (int i = 0; i < 4; i++) {
-				springs[i]->FINALupdate();
-			}
-		}
+
 		return true;
+	}
+
+	void sprUpdate(Spring *springs[]) {
+		for (int i = 0; i < 4; i++) {
+			springs[i]->FINALupdate();
+		}
 	}
 
 	bool OnUserUpdate(float deltaTime) override
 	{
 		Clear(olc::Pixel(0, 0, 0));
 
-		sprUpdate(&Spring);
-
-		sprUpdate(&Spring);
+		sprUpdate(&springs);
 
 		point->update(deltaTime);
 		return true;
