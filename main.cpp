@@ -5,46 +5,50 @@
 #include "masspoint.hpp"
 //#include "spring.hpp"
 
-
 class JELLY : public olc::PixelGameEngine
 {
 public:
+	const int numberOfPoints = 9;
 
 	JELLY() {
 		sAppName = "Jelly";
 	}
 	~JELLY() {
 		delete pointPos;
-		delete Shape;
+		delete particles;
+	}
+
+	void connect(olc::vf2d* pos_1, olc::vf2d* pos_2) {
+
+		olc::Pixel lineColor = { 143, 203, 217 };
+		DrawLineDecal(*pos_1, *pos_2, lineColor);
 	}
 
 	float pointMass = 1.0f;
 	olc::vf2d pointVelocity = { 0.0f, 170.0f };
 	olc::vf2d pointForce = { 0.0f, 9.8f };
 
-	Particle** Shape = nullptr;
+	Particle** particles = nullptr;
 	olc::vf2d** pointPos = nullptr; 
 
 	bool OnUserCreate() override
 	{
-		const int n = 9;
-
-		Shape = new Particle * [n];
-		pointPos = new olc::vf2d * [n];
+		particles = new Particle * [numberOfPoints];
+		pointPos = new olc::vf2d * [numberOfPoints];
 
 		const float tau = 6.28f;
-		const float step = tau / (float)n;
+		const float step = tau / (float)numberOfPoints;
 		const float radius = 100.0f;
 		olc::vf2d center = { 190.0f, 190.0f };
-		for (int i = 0; i < n; i++) {
+		for (int i = 0; i < numberOfPoints; i++) {
 			float angle = step * (float)i;
 			float x = center.x + radius * cos(angle);
 			float y = center.y + radius * sin(angle);
 			pointPos[i] = new olc::vf2d(x, y);
 		}
 
-		for (int i = 0; i < 5; i++) {
-			Shape[i] = new Particle(this, *pointPos[i], pointVelocity, pointForce, pointMass);
+		for (int i = 0; i < numberOfPoints; i++) {
+			particles[i] = new Particle(this, *pointPos[i], pointVelocity, pointForce, pointMass);
 		}
 
 		return true;
@@ -54,9 +58,12 @@ public:
 	{
 		Clear(olc::Pixel(0, 0, 0));
 
-		for (int i = 0; i < 5; i++) {
-			Shape[i]->update(deltaTime);
+		for (int i = 0; i < numberOfPoints - 1; i++) {
+			particles[i]->update(deltaTime);
+			connect(&particles[i]->pos, &particles[i + 1]->pos);
 		}
+		particles[numberOfPoints - 1]->update(deltaTime);
+		connect(&particles[numberOfPoints - 1]->pos, &particles[0]->pos);
 
 		return true;
 	}
