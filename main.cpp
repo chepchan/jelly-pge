@@ -3,7 +3,7 @@
 
 #include "olcPixelGameEngine.h"
 #include "masspoint.hpp"
-#include "spring.hpp"
+//#include "spring.hpp"
 
 class JELLY : public olc::PixelGameEngine
 {
@@ -12,54 +12,43 @@ public:
 	JELLY() {
 		sAppName = "Jelly";
 	}
-	~JELLY() {
-		delete point;
-	}
+	//~JELLY() {
+	//	//delete point;
+	//	delete Shapes;
+	//}
 
-	olc::vf2d pointPos = { 160.0f, 10.0f };
-	olc::vf2d pointVelocity = { 0.0f, 0.0f };
-	olc::vf2d pointForce = { 0.0f, 9.8f };
+	olc::vf2d pointPos_0 = { 320.0f, 20.0f };
+	olc::vf2d pointPos_1 = { 370.0f, 70.0f };
+	olc::vf2d pointPos_2 = { 420.0f, 120.0f };
+	olc::vf2d pointPos_3 = { 470.0f, 170.0f };
+	olc::vf2d pointPos_4 = { 520.0f, 220.0f };
+
 	float pointMass = 1.0f;
+	olc::vf2d pointVelocity = { 0.0f, 170.0f };
+	olc::vf2d pointForce = { 0.0f, 9.8f };
 
-	Particle* point = nullptr;
-
-	olc::vf2d springPos1 = { 240.0, 260.0 };
-	olc::vf2d springPos2 = { 270.0, 260.0 };
-	olc::vf2d springPos3 = { 300.0, 260.0 };
-
-
-	olc::vf2d springPos1 = { 240.0, 260.0 };
-	olc::vf2d springPos2 = { 270.0, 260.0 };
-	olc::vf2d springPos3 = { 300.0, 260.0 };
-
+	//Particle* point = nullptr;
+	Particle* Shape[5];
 
 	bool OnUserCreate() override
 	{
-		point = new Particle(this, pointPos, pointVelocity, pointForce, pointMass);
-
-		Spring *springs[4];
-
-		springs[0] = new Spring(this, springPos1, 0.98, 8.0, 0.1, 0);
-		springs[1] = new Spring(this, springPos2, 0.98, 8.0, 0.1, 1);
-		springs[3] = new Spring(this, springPos3, 0.98, 8.0, 0.1, 2);
-
+		Shape[0] = new Particle(this, pointPos_0, pointVelocity, pointForce, pointMass);
+		Shape[1] = new Particle(this, pointPos_1, pointVelocity, pointForce, pointMass);
+		Shape[2] = new Particle(this, pointPos_2, pointVelocity, pointForce, pointMass);
+		Shape[3] = new Particle(this, pointPos_3, pointVelocity, pointForce, pointMass);
+		Shape[4] = new Particle(this, pointPos_4, pointVelocity, pointForce, pointMass);
 
 		return true;
-	}
-
-	void sprUpdate(Spring *springs[]) {
-		for (int i = 0; i < 4; i++) {
-			springs[i]->FINALupdate();
-		}
 	}
 
 	bool OnUserUpdate(float deltaTime) override
 	{
 		Clear(olc::Pixel(0, 0, 0));
 
-		sprUpdate(&springs);
+		for (int i = 0; i < 5; i++) {
+			Shape[i]->update(deltaTime);
+		}
 
-		point->update(deltaTime);
 		return true;
 	}
 };

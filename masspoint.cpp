@@ -14,6 +14,6 @@ void Particle::update(float dt) {
 	//pos.x += velocity.x * dt;
 	pos.y += velocity.y * dt;
 
-	pge->DrawCircle(pos.x, pos.y, 10, { 255, 0, 0 });
-	pge->FillCircle(pos.x, pos.y, 10, { 255, 0, 0 });
+	pge->DrawCircle(pos.x, pos.y, 10, { 143, 203, 217 });
+	pge->FillCircle(pos.x, pos.y, 10, { 143, 203, 217 });
 }
