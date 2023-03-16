@@ -14,5 +14,6 @@ public:
 
 	void update(float dt);
 	void connect(olc::vf2d pos_1, olc::vf2d pos_2, float dt);
+	olc::vf2d circle();
 
 };
