@@ -32,24 +32,25 @@ public:
 
 	bool OnUserCreate() override
 	{
-		//*pointPos = new olc::vf2d;
+		*pointPos = new olc::vf2d;
 
-		pointPos[0]->x = 320.0f;
-		pointPos[0]->y = 20.0f;
-		pointPos[1]->x = 370.0f;
-		pointPos[1]->y = 70.0f;
-		pointPos[2]->x = 420.0f;
-		pointPos[2]->y = 120.0f;
-		pointPos[3]->x = 470.0f;
-		pointPos[3]->y = 170.0f;
-		pointPos[4]->x = 520.0f;
-		pointPos[4]->y = 220.0f;
+		pointPos[0]->x = 320.0f;  pointPos[0]->y = 20.0f;   olc::vf2d util_0 = *pointPos[0];
+		pointPos[1]->x = 370.0f;  pointPos[1]->y = 70.0f;   olc::vf2d util_1 = *pointPos[1];
+		pointPos[2]->x = 420.0f;  pointPos[2]->y = 120.0f;  olc::vf2d util_2 = *pointPos[2];
+		pointPos[3]->x = 470.0f;  pointPos[3]->y = 170.0f;  olc::vf2d util_3 = *pointPos[3];
+		pointPos[4]->x = 520.0f;  pointPos[4]->y = 220.0f;  olc::vf2d util_4 = *pointPos[4];
 
-		Shape[0] = new Particle(this, *pointPos[0], pointVelocity, pointForce, pointMass);
-		Shape[1] = new Particle(this, *pointPos[1], pointVelocity, pointForce, pointMass);
-		Shape[2] = new Particle(this, *pointPos[2], pointVelocity, pointForce, pointMass);
-		Shape[3] = new Particle(this, *pointPos[3], pointVelocity, pointForce, pointMass);
-		Shape[4] = new Particle(this, *pointPos[4], pointVelocity, pointForce, pointMass);
+		Shape[0] = new Particle(this, util_0, pointVelocity, pointForce, pointMass);
+		Shape[1] = new Particle(this, util_1, pointVelocity, pointForce, pointMass);
+		Shape[2] = new Particle(this, util_2, pointVelocity, pointForce, pointMass);
+		Shape[3] = new Particle(this, util_3, pointVelocity, pointForce, pointMass);
+		Shape[4] = new Particle(this, util_4, pointVelocity, pointForce, pointMass);
+
+		//Shape[0] = new Particle(this, *pointPos[0], pointVelocity, pointForce, pointMass);
+		//Shape[1] = new Particle(this, *pointPos[1], pointVelocity, pointForce, pointMass);
+		//Shape[2] = new Particle(this, *pointPos[2], pointVelocity, pointForce, pointMass);
+		//Shape[3] = new Particle(this, *pointPos[3], pointVelocity, pointForce, pointMass);
+		//Shape[4] = new Particle(this, *pointPos[4], pointVelocity, pointForce, pointMass);
 
 		return true;
 	}
