@@ -8,23 +8,9 @@ Particle::Particle(olc::PixelGameEngine* pge, olc::vf2d pos, olc::vf2d velocity,
 	this->mass = mass;
 }
 
-
-olc::vf2d Particle::circle() {
-	const float tau = 6.28f;
-	const int n = 8;
-	const float step = tau / (float)n;
-	const float radius = 6.0f;
-	float x = 0.0f;
-	float y = 0.0f;
-	olc::vf2d place = { x, y };
-
-	for (int i = 0; i < n; i++) {
-		float angle = step * (float)i;
-
-		x = radius * cos(angle);
-		y = radius * sin(angle);
-	}
-	return place;
+void Particle::draw(int radius) {
+	pge->DrawCircle((int)pos.x, (int)pos.y, radius, { 225, 176, 255 });
+	pge->FillCircle((int)pos.x, (int)pos.y, radius, { 225, 176, 255 });
 }
 
 void Particle::update(float dt) {
@@ -32,8 +18,12 @@ void Particle::update(float dt) {
 	velocity.y += (force.y / mass) * dt;
 	pos.x += velocity.x * dt;
 	pos.y += velocity.y * dt;
+}
 
-	pge->DrawCircle((int)pos.x, (int)pos.y, 5, { 143, 203, 217 });
-	pge->FillCircle((int)pos.x, (int)pos.y, 5, { 143, 203, 217 });
-
+bool Particle::collide() {
+	if (pos.x < pge->ScreenWidth() - 10 
+		&& pos.y < pge->ScreenHeight() - 10
+		&& pos.x > 10
+		&& pos.y > 10) { return true; }
+	else { return false; }
 }

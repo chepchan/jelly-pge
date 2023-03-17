@@ -12,7 +12,7 @@ public:
 
 	Particle(olc::PixelGameEngine* pge, olc::vf2d pos, olc::vf2d velocity, olc::vf2d force, float mass);
 
+	void draw(int radius);
 	void update(float dt);
-	olc::vf2d circle();
-
+	bool collide();
 };

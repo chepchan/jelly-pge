@@ -8,47 +8,47 @@
 class JELLY : public olc::PixelGameEngine
 {
 public:
-	const int numberOfPoints = 9;
+	const int numberOfParticles = 12;
 
 	JELLY() {
 		sAppName = "Jelly";
 	}
 	~JELLY() {
-		delete pointPos;
+		delete particlePos;
 		delete particles;
 	}
 
 	void connect(olc::vf2d* pos_1, olc::vf2d* pos_2) {
 
-		olc::Pixel lineColor = { 143, 203, 217 };
+		olc::Pixel lineColor = { 225, 176, 255 };
 		DrawLineDecal(*pos_1, *pos_2, lineColor);
 	}
 
-	float pointMass = 1.0f;
-	olc::vf2d pointVelocity = { 0.0f, 170.0f };
-	olc::vf2d pointForce = { 0.0f, 9.8f };
+	float particleMass = 1.0f;
+	olc::vf2d particleVelocity = { 0.0f, 170.0f };
+	olc::vf2d particleForce = { 0.0f, 9.8f };
 
 	Particle** particles = nullptr;
-	olc::vf2d** pointPos = nullptr; 
+	olc::vf2d** particlePos = nullptr; 
 
 	bool OnUserCreate() override
 	{
-		particles = new Particle * [numberOfPoints];
-		pointPos = new olc::vf2d * [numberOfPoints];
+		particles = new Particle * [numberOfParticles];
+		particlePos = new olc::vf2d * [numberOfParticles];
 
 		const float tau = 6.28f;
-		const float step = tau / (float)numberOfPoints;
+		const float step = tau / (float)numberOfParticles;
 		const float radius = 100.0f;
 		olc::vf2d center = { 190.0f, 190.0f };
-		for (int i = 0; i < numberOfPoints; i++) {
+		for (int i = 0; i < numberOfParticles; i++) {
 			float angle = step * (float)i;
 			float x = center.x + radius * cos(angle);
 			float y = center.y + radius * sin(angle);
-			pointPos[i] = new olc::vf2d(x, y);
+			particlePos[i] = new olc::vf2d(x, y);
 		}
 
-		for (int i = 0; i < numberOfPoints; i++) {
-			particles[i] = new Particle(this, *pointPos[i], pointVelocity, pointForce, pointMass);
+		for (int i = 0; i < numberOfParticles; i++) {
+			particles[i] = new Particle(this, *particlePos[i], particleVelocity, particleForce, particleMass);
 		}
 
 		return true;
@@ -56,23 +56,27 @@ public:
 
 	bool OnUserUpdate(float deltaTime) override
 	{
-		Clear(olc::Pixel(0, 0, 0));
+		Clear(olc::Pixel(26, 22, 28));
 
-		for (int i = 0; i < numberOfPoints - 1; i++) {
-			particles[i]->update(deltaTime);
+		for (int i = 0; i < numberOfParticles - 1; i++) {
+			particles[i]->draw(3);
 			connect(&particles[i]->pos, &particles[i + 1]->pos);
+			if (particles[i]->collide()) {
+				particles[i]->update(deltaTime);
+			}
 		}
-		particles[numberOfPoints - 1]->update(deltaTime);
-		connect(&particles[numberOfPoints - 1]->pos, &particles[0]->pos);
+		particles[numberOfParticles - 1]->draw(3);
+		connect(&particles[numberOfParticles - 1]->pos, &particles[0]->pos);
+		if (particles[numberOfParticles - 1]->collide()) {
+			particles[numberOfParticles - 1]->update(deltaTime);
+		}
 
 		return true;
 	}
 };
 
-
 int main()
 {
-
 	JELLY game;
 	const int width = 1400;
 	const int height = 950;
